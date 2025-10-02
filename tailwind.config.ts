@@ -52,6 +52,7 @@ export default {
       fontFamily: {
         sans: ["Inter", "sans-serif"],
         display: ["Space Grotesk", "sans-serif"],
+        heading: ["Orbitron", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -20,15 +20,18 @@ All colors MUST be HSL.
     --primary: 220 90% 56%;
     --primary-foreground: 0 0% 100%;
     --primary-glow: 220 90% 66%;
+    --primary-light: 220 90% 70%;
 
     --secondary: 280 60% 50%;
     --secondary-foreground: 0 0% 100%;
+    --secondary-glow: 280 60% 60%;
 
     --muted: 220 14% 96%;
     --muted-foreground: 220 9% 46%;
 
     --accent: 45 100% 51%;
     --accent-foreground: 222 47% 11%;
+    --accent-glow: 45 100% 65%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
@@ -41,12 +44,15 @@ All colors MUST be HSL.
     --cosmic-purple: 280 60% 50%;
     --cosmic-gold: 45 100% 51%;
     --cosmic-deep: 230 35% 7%;
+    --cosmic-teal: 180 70% 50%;
 
     --radius: 0.75rem;
 
     --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.3);
     --shadow-strong: 0 20px 60px -15px hsl(220 90% 20% / 0.4);
+    --shadow-intense: 0 30px 90px -20px hsl(220 90% 30% / 0.6);
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .dark {
@@ -62,15 +68,18 @@ All colors MUST be HSL.
     --primary: 220 90% 56%;
     --primary-foreground: 0 0% 100%;
     --primary-glow: 220 90% 66%;
+    --primary-light: 220 90% 70%;
 
     --secondary: 280 60% 50%;
     --secondary-foreground: 0 0% 100%;
+    --secondary-glow: 280 60% 60%;
 
     --muted: 230 20% 20%;
     --muted-foreground: 220 10% 70%;
 
     --accent: 45 100% 51%;
     --accent-foreground: 230 35% 7%;
+    --accent-glow: 45 100% 65%;
 
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 100%;
@@ -83,9 +92,11 @@ All colors MUST be HSL.
     --cosmic-purple: 280 60% 50%;
     --cosmic-gold: 45 100% 51%;
     --cosmic-deep: 230 35% 7%;
+    --cosmic-teal: 180 70% 50%;
 
     --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.4);
     --shadow-strong: 0 20px 60px -15px hsl(220 90% 30% / 0.5);
+    --shadow-intense: 0 30px 90px -20px hsl(220 90% 40% / 0.7);
   }
 }
 
@@ -109,16 +120,37 @@ All colors MUST be HSL.
     @apply bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent;
   }
 
+  .text-gradient-alt {
+    @apply bg-gradient-to-r from-accent via-primary to-secondary bg-clip-text text-transparent;
+  }
+
   .cosmic-glow {
-    text-shadow: 0 0 20px hsl(var(--primary-glow) / 0.5);
+    text-shadow: 0 0 30px hsl(var(--primary-glow) / 0.6), 0 0 60px hsl(var(--secondary-glow) / 0.3);
+  }
+
+  .cosmic-glow-strong {
+    text-shadow: 0 0 40px hsl(var(--primary-glow) / 0.8), 0 0 80px hsl(var(--secondary-glow) / 0.4), 0 0 120px hsl(var(--accent-glow) / 0.2);
   }
 
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
 
+  .animate-float-delay {
+    animation: float 6s ease-in-out infinite;
+    animation-delay: 3s;
+  }
+
   .animate-pulse-slow {
     animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-spin-slow {
+    animation: spin 20s linear infinite;
+  }
+
+  .animate-glow {
+    animation: glow 3s ease-in-out infinite alternate;
   }
 
   @keyframes float {
@@ -126,8 +158,36 @@ All colors MUST be HSL.
     50% { transform: translateY(-20px); }
   }
 
+  @keyframes glow {
+    from { filter: drop-shadow(0 0 20px hsl(var(--primary) / 0.4)); }
+    to { filter: drop-shadow(0 0 40px hsl(var(--primary) / 0.8)); }
+  }
+
   .parallax {
     transform: translateZ(0);
     will-change: transform;
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .transform-3d {
+    transform-style: preserve-3d;
+  }
+
+  .glass-morphism {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 60px -15px hsl(var(--primary) / 0.4);
   }
 }
