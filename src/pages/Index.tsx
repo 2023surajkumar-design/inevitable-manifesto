@@ -1,23 +1,180 @@
-import { HeroEnhanced } from "@/components/HeroEnhanced";
-import { PhilosophyEnhanced } from "@/components/PhilosophyEnhanced";
-import { VisionEnhanced } from "@/components/VisionEnhanced";
-import { Disruptions } from "@/components/Disruptions";
-import { Education } from "@/components/Education";
-import { CallToAction } from "@/components/CallToAction";
+import { useEffect } from "react";
+import { HeroPro } from "@/components/HeroPro";
+import { PhilosophyPro } from "@/components/PhilosophyPro";
+import { VisionPro } from "@/components/VisionPro";
+import { DisruptionsPro } from "@/components/DisruptionsPro";
+import { EducationPro } from "@/components/EducationPro";
+import { CallToActionPro } from "@/components/CallToActionPro";
 import { Footer } from "@/components/Footer";
+import { NavigationOrb } from "@/components/NavigationOrb";
+import { HistoricalTimeline } from "@/components/HistoricalTimeline";
+import { PhilosophyExplorer } from "@/components/PhilosophyExplorer";
+import { QuoteCarousel } from "@/components/QuoteCarousel";
+import { UnifiedBackground } from "@/components/ui/unified-background";
+import { 
+  heroQuotes, 
+  visionQuotes, 
+  disruptionQuotes, 
+  educationQuotes, 
+  closingQuotes 
+} from "@/utils/manifestoContent";
+import { useReducedMotion, useSkipToContent, useSectionNavigation } from "@/lib/accessibility";
+import { useDeviceCapabilities } from "@/lib/performance";
 
 const Index = () => {
+  const prefersReducedMotion = useReducedMotion();
+  const capabilities = useDeviceCapabilities();
+  
+  // Enable keyboard navigation
+  useSkipToContent();
+  useSectionNavigation();
+
+  // Log accessibility preferences for debugging
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      console.info("Reduced motion preference detected - animations simplified");
+    }
+    if (!capabilities.isHighPerformance) {
+      console.info("Lower performance device detected - optimizing 3D rendering");
+    }
+  }, [prefersReducedMotion, capabilities.isHighPerformance]);
+
   return (
-    <div className="min-h-screen bg-background">
-      <HeroEnhanced />
-      <PhilosophyEnhanced />
-      <VisionEnhanced />
-      <Disruptions />
-      <Education />
-      <CallToAction />
+    <div className="min-h-screen bg-transparent">
+      {/* Skip to main content link for screen readers */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md"
+      >
+        Skip to main content (Alt+S)
+      </a>
+
+      {/* Hero section */}
+      <section id="hero" data-section-id="hero" aria-label="Hero">
+        <HeroPro />
+      </section>
+
+      {/* Main content sections */}
+      <main id="main-content">
+        <section id="philosophy" data-section-id="philosophy" aria-label="Philosophy">
+          <PhilosophyPro />
+        </section>
+
+        {/* Quote Divider */}
+        <UnifiedBackground variant="timeline" intensity="subtle" className="py-16">
+          <QuoteCarousel 
+            quotes={heroQuotes} 
+            variant="section" 
+            autoPlay={true}
+            interval={8000}
+            className="px-6"
+          />
+        </UnifiedBackground>
+
+        <UnifiedBackground variant="timeline" intensity="medium" className="py-16">
+          <HistoricalTimeline />
+        </UnifiedBackground>
+
+        {/* Quote Divider */}
+        <UnifiedBackground variant="disruption" intensity="subtle" className="py-16">
+          <QuoteCarousel 
+            quotes={disruptionQuotes} 
+            variant="section" 
+            autoPlay={true}
+            interval={8000}
+            className="px-6"
+          />
+        </UnifiedBackground>
+
+        <UnifiedBackground variant="philosophy" intensity="medium" className="py-16">
+          <PhilosophyExplorer />
+        </UnifiedBackground>
+
+        {/* Quote Divider */}
+        <UnifiedBackground variant="education" intensity="subtle" className="py-16">
+          <QuoteCarousel 
+            quotes={educationQuotes} 
+            variant="section" 
+            autoPlay={true}
+            interval={8000}
+            className="px-6"
+          />
+        </UnifiedBackground>
+
+        <UnifiedBackground variant="vision" intensity="medium">
+          <section id="vision" data-section-id="vision" aria-label="Vision">
+            <VisionPro />
+          </section>
+        </UnifiedBackground>
+
+        {/* Quote Divider */}
+        <UnifiedBackground variant="vision" intensity="subtle" className="py-16">
+          <QuoteCarousel 
+            quotes={visionQuotes} 
+            variant="section" 
+            autoPlay={true}
+            interval={8000}
+            className="px-6"
+          />
+        </UnifiedBackground>
+
+        <UnifiedBackground variant="disruption" intensity="medium">
+          <section id="disruptions" data-section-id="disruptions" aria-label="Disruptions">
+            <DisruptionsPro />
+          </section>
+        </UnifiedBackground>
+
+        {/* Quote Divider */}
+        <UnifiedBackground variant="education" intensity="subtle" className="py-16">
+          <QuoteCarousel 
+            quotes={educationQuotes} 
+            variant="section" 
+            autoPlay={true}
+            interval={8000}
+            className="px-6"
+          />
+        </UnifiedBackground>
+
+        <UnifiedBackground variant="education" intensity="medium">
+          <section id="education" data-section-id="education" aria-label="Education">
+            <EducationPro />
+          </section>
+        </UnifiedBackground>
+
+        {/* Quote Divider */}
+        <UnifiedBackground variant="cta" intensity="medium" className="py-16">
+          <QuoteCarousel 
+            quotes={closingQuotes} 
+            variant="section" 
+            autoPlay={true}
+            interval={8000}
+            className="px-6"
+          />
+        </UnifiedBackground>
+
+        <UnifiedBackground variant="cta" intensity="intense">
+          <section id="join" data-section-id="join" aria-label="Join the Movement">
+            <CallToActionPro />
+          </section>
+        </UnifiedBackground>
+      </main>
+
       <Footer />
+      
+      {/* Navigation Orb */}
+      <NavigationOrb />
+      
+      {/* Accessibility announcements region */}
+      <output 
+        id="a11y-announcer" 
+        aria-live="polite" 
+        aria-atomic="true" 
+        className="sr-only"
+      />
     </div>
   );
 };
 
 export default Index;
+
+

@@ -1,7 +1,5 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Sphere, MeshDistortMaterial, Float } from "@react-three/drei";
-import { useRef } from "react";
-import * as THREE from "three";
 
 const AnimatedSphere = ({ position, color }: { position: [number, number, number], color: string }) => {
   return (
