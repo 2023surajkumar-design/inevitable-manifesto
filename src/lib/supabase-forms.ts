@@ -44,35 +44,24 @@ export async function submitContactForm(
       return { success: false, error: 'Message is required' };
     }
 
-    // Submit to Supabase
-    const { data, error } = await supabase
-      .from('contact_submissions')
-      .insert([
-        {
-          name: formData.name.trim(),
-          email: formData.email.trim().toLowerCase(),
-          message: formData.message.trim(),
-        }
-      ])
-      .select()
-      .single();
+    // Submit to Supabase - Note: contact_submissions table needs to be created
+    // This is commented out until the table is created via migration
+    // const { data, error } = await supabase
+    //   .from('contact_submissions')
+    //   .insert([
+    //     {
+    //       name: formData.name.trim(),
+    //       email: formData.email.trim().toLowerCase(),
+    //       message: formData.message.trim(),
+    //     }
+    //   ])
+    //   .select()
+    //   .single();
 
-    if (error) {
-      console.error('Supabase submission error:', error);
-      
-      // Handle specific error cases
-      if (error.code === 'PGRST116') {
-        return { success: false, error: 'Table not found. Please set up the database schema first.' };
-      }
-      
-      if (error.code === '23505') {
-        return { success: false, error: 'This submission already exists.' };
-      }
-      
-      return { success: false, error: error.message || 'Failed to submit form' };
-    }
-
-    return { success: true, data };
+    // Temporary: Use simulation until table is created
+    return simulateFormSubmission(formData);
+    
+    // Once table is created, uncomment the code above and remove the simulation call
   } catch (error) {
     console.error('Unexpected error during form submission:', error);
     return { 

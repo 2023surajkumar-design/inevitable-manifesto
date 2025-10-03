@@ -58,22 +58,44 @@ const rand = (min: number, max: number) => Math.random() * (max - min) + min;
 
 const devicePixelRatioSafe = typeof window === "undefined" ? 1 : Math.min(window.devicePixelRatio || 1, 2);
 
+// Helper to resolve CSS variables to actual colors
+const resolveCssVar = (input: string): string => {
+  if (input.includes('var(')) {
+    // Extract variable name from var(--variable-name)
+    const match = input.match(/var\((--[^,)]+)/);
+    if (match) {
+      const varName = match[1];
+      const style = getComputedStyle(document.documentElement);
+      const value = style.getPropertyValue(varName).trim();
+      // If it's an HSL value like "351 95% 71%", convert to hsl()
+      if (value && !value.startsWith('hsl') && !value.startsWith('rgb') && !value.startsWith('#')) {
+        return `hsl(${value})`;
+      }
+      return value || input;
+    }
+  }
+  return input;
+};
+
 const toRgba = (input: string, alpha: number) => {
-  if (/^hsl/i.test(input)) {
-    return input.replace(/hsl/i, "hsla").replace(/\)$/i, `, ${alpha})`);
+  // First resolve any CSS variables
+  const resolved = resolveCssVar(input);
+  
+  if (/^hsl/i.test(resolved)) {
+    return resolved.replace(/hsl/i, "hsla").replace(/\)$/i, `, ${alpha})`);
   }
-  if (/^rgb/i.test(input)) {
-    return input.replace(/rgb/i, "rgba").replace(/\)$/i, `, ${alpha})`);
+  if (/^rgb/i.test(resolved)) {
+    return resolved.replace(/rgb/i, "rgba").replace(/\)$/i, `, ${alpha})`);
   }
-  if (/^#[0-9a-f]{3,8}$/i.test(input)) {
-    const hex = input.replace("#", "");
+  if (/^#[0-9a-f]{3,8}$/i.test(resolved)) {
+    const hex = resolved.replace("#", "");
     const bigint = parseInt(hex.length === 3 ? hex.repeat(2) : hex.slice(0, 6), 16);
     const r = (bigint >> 16) & 255;
     const g = (bigint >> 8) & 255;
     const b = bigint & 255;
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   }
-  return input;
+  return `rgba(255, 255, 255, ${alpha})`;
 };
 
 export const ParticleField = React.forwardRef<HTMLDivElement, ParticleFieldProps>(

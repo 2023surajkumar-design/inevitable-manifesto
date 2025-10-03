@@ -1,6 +1,45 @@
 // Accessibility utilities and hooks
 
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
+
+/**
+ * Hook to detect if an element is in the viewport
+ * Useful for lazy loading heavy 3D components
+ */
+export function useInViewport(options?: IntersectionObserverInit) {
+  const [isInView, setIsInView] = useState(false);
+  const [hasBeenInView, setHasBeenInView] = useState(false);
+  const ref = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+        if (entry.isIntersecting && !hasBeenInView) {
+          setHasBeenInView(true);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '50px',
+        ...options,
+      }
+    );
+
+    const currentRef = ref.current;
+    observer.observe(currentRef);
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [hasBeenInView, options]);
+
+  return { ref, isInView, hasBeenInView };
+}
 
 /**
  * Hook to respect user's motion preferences

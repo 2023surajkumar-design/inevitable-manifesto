@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { ImmersiveBackgroundProvider } from "@/components/ui/immersive-background";
 import { HeroPro } from "@/components/HeroPro";
 import { PhilosophyPro } from "@/components/PhilosophyPro";
 import { VisionPro } from "@/components/VisionPro";
@@ -10,7 +11,6 @@ import { NavigationOrb } from "@/components/NavigationOrb";
 import { HistoricalTimeline } from "@/components/HistoricalTimeline";
 import { PhilosophyExplorer } from "@/components/PhilosophyExplorer";
 import { QuoteCarousel } from "@/components/QuoteCarousel";
-import { UnifiedBackground } from "@/components/ui/unified-background";
 import { 
   heroQuotes, 
   visionQuotes, 
@@ -40,7 +40,7 @@ const Index = () => {
   }, [prefersReducedMotion, capabilities.isHighPerformance]);
 
   return (
-    <div className="min-h-screen bg-transparent">
+    <ImmersiveBackgroundProvider className="min-h-screen">
       {/* Skip to main content link for screen readers */}
       <a 
         href="#main-content" 
@@ -61,102 +61,88 @@ const Index = () => {
         </section>
 
         {/* Quote Divider */}
-        <UnifiedBackground variant="timeline" intensity="subtle" className="py-16">
+        <div className="py-16 px-6">
           <QuoteCarousel 
             quotes={heroQuotes} 
             variant="section" 
             autoPlay={true}
             interval={8000}
-            className="px-6"
           />
-        </UnifiedBackground>
+        </div>
 
-        <UnifiedBackground variant="timeline" intensity="medium" className="py-16">
+        <div className="py-16">
           <HistoricalTimeline />
-        </UnifiedBackground>
+        </div>
 
         {/* Quote Divider */}
-        <UnifiedBackground variant="disruption" intensity="subtle" className="py-16">
+        <div className="py-16 px-6">
           <QuoteCarousel 
             quotes={disruptionQuotes} 
             variant="section" 
             autoPlay={true}
             interval={8000}
-            className="px-6"
           />
-        </UnifiedBackground>
+        </div>
 
-        <UnifiedBackground variant="philosophy" intensity="medium" className="py-16">
+        <div className="py-16">
           <PhilosophyExplorer />
-        </UnifiedBackground>
+        </div>
 
         {/* Quote Divider */}
-        <UnifiedBackground variant="education" intensity="subtle" className="py-16">
+        <div className="py-16 px-6">
           <QuoteCarousel 
             quotes={educationQuotes} 
             variant="section" 
             autoPlay={true}
             interval={8000}
-            className="px-6"
           />
-        </UnifiedBackground>
+        </div>
 
-        <UnifiedBackground variant="vision" intensity="medium">
-          <section id="vision" data-section-id="vision" aria-label="Vision">
-            <VisionPro />
-          </section>
-        </UnifiedBackground>
+        <section id="vision" data-section-id="vision" aria-label="Vision">
+          <VisionPro />
+        </section>
 
         {/* Quote Divider */}
-        <UnifiedBackground variant="vision" intensity="subtle" className="py-16">
+        <div className="py-16 px-6">
           <QuoteCarousel 
             quotes={visionQuotes} 
             variant="section" 
             autoPlay={true}
             interval={8000}
-            className="px-6"
           />
-        </UnifiedBackground>
+        </div>
 
-        <UnifiedBackground variant="disruption" intensity="medium">
-          <section id="disruptions" data-section-id="disruptions" aria-label="Disruptions">
-            <DisruptionsPro />
-          </section>
-        </UnifiedBackground>
+        <section id="disruptions" data-section-id="disruptions" aria-label="Disruptions">
+          <DisruptionsPro />
+        </section>
 
         {/* Quote Divider */}
-        <UnifiedBackground variant="education" intensity="subtle" className="py-16">
+        <div className="py-16 px-6">
           <QuoteCarousel 
             quotes={educationQuotes} 
             variant="section" 
             autoPlay={true}
             interval={8000}
-            className="px-6"
           />
-        </UnifiedBackground>
+        </div>
 
-        <UnifiedBackground variant="education" intensity="medium">
-          <section id="education" data-section-id="education" aria-label="Education">
-            <EducationPro />
-          </section>
-        </UnifiedBackground>
+        <section id="education" data-section-id="education" aria-label="Education">
+          <EducationPro />
+        </section>
 
         {/* Quote Divider */}
-        <UnifiedBackground variant="cta" intensity="medium" className="py-16">
+        <div className="py-16 px-6">
           <QuoteCarousel 
             quotes={closingQuotes} 
             variant="section" 
             autoPlay={true}
             interval={8000}
-            className="px-6"
           />
-        </UnifiedBackground>
+        </div>
 
-        <UnifiedBackground variant="cta" intensity="intense">
-          <section id="join" data-section-id="join" aria-label="Join the Movement">
-            <CallToActionPro />
-          </section>
-        </UnifiedBackground>
+        <section id="join" data-section-id="join" aria-label="Join the Movement">
+          <CallToActionPro />
+        </section>
       </main>
 
       <Footer />
@@ -171,7 +157,7 @@ const Index = () => {
         aria-atomic="true" 
         className="sr-only"
       />
-    </div>
+    </ImmersiveBackgroundProvider>
   );
 };
 
